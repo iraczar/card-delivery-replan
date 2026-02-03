@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+}
+
+group 'ru.netology'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 11
+
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
+    testImplementation 'com.codeborne:selenide:6.17.1'
+    testImplementation 'io.github.bonigarcia:webdrivermanager:5.5.3'
+    testImplementation 'com.github.javafaker:javafaker:1.0.2'
+
+    compileOnly 'org.projectlombok:lombok:1.18.28'
+    annotationProcessor 'org.projectlombok:lombok:1.18.28'
+    testCompileOnly 'org.projectlombok:lombok:1.18.28'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.28'
+}
+
+test {
+    useJUnitPlatform()
+    jvmArgs '-Xmx1g', '-Xms512m', '--add-opens', 'java.base/java.lang=ALL-UNNAMED'
+    systemProperty 'selenide.headless', System.getProperty('selenide.headless')
+}
