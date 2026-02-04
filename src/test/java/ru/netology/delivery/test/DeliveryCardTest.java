@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.chrome.ChromeOptions;
 import ru.netology.delivery.data.DataGenerator;
 import ru.netology.delivery.data.UserInfo;
 
@@ -18,33 +17,7 @@ public class DeliveryCardTest {
 
     @BeforeAll
     static void setUpAll() {
-        // Указываем путь к ChromeDriver только для Windows
-        String os = System.getProperty("os.name").toLowerCase();
-        if (os.contains("win")) {
-            System.setProperty("webdriver.chrome.driver",
-                    System.getProperty("user.dir") + "\\drivers\\chromedriver.exe");
-        }
-        // На Linux Selenium Manager сам скачает нужный драйвер
-
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless=new");
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--disable-gpu");
-        options.addArguments("--window-size=1920,1080");
-        options.addArguments("--remote-allow-origins=*");
-
-        // Указываем путь к chrome.exe только для Windows
-        if (os.contains("win")) {
-            options.setBinary("C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe");
-        }
-        // На Linux Chrome установлен в стандартном месте
-
-        Configuration.browserCapabilities = options;
-        Configuration.browser = "chrome";
-        Configuration.headless = false;
-        Configuration.timeout = 30000;
-        Configuration.pageLoadTimeout = 60000;
+        Configuration.browserSize = "1920x1080";
     }
 
     @BeforeEach
@@ -93,6 +66,7 @@ public class DeliveryCardTest {
 
         // Нажатие кнопки "Перепланировать"
         $("[data-test-id='replan-notification'] button").click();
+
         // Ждем пока уведомление перепланирования исчезнет
         $("[data-test-id='replan-notification']")
                 .shouldBe(Condition.hidden, Duration.ofSeconds(10));

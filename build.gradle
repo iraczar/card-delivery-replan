@@ -28,6 +28,5 @@ dependencies {
 
 test {
     useJUnitPlatform()
-    jvmArgs '-Xmx1g', '-Xms512m', '--add-opens', 'java.base/java.lang=ALL-UNNAMED'
     systemProperty 'selenide.headless', System.getProperty('selenide.headless')
 }

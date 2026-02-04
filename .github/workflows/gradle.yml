@@ -25,15 +25,5 @@ jobs:
       - name: Start SUT
         run: java -jar ./artifacts/app-replan-delivery.jar &
 
-      - name: Wait for SUT to start
-        run: sleep 10
-
       - name: Build with Gradle
-        run: ./gradlew test --info
-
-      - name: Upload test reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-reports
-          path: build/reports/tests/test/
+        run: ./gradlew test -Dselenide.headless=true
