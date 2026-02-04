@@ -18,8 +18,13 @@ public class DeliveryCardTest {
 
     @BeforeAll
     static void setUpAll() {
-        System.setProperty("webdriver.chrome.driver",
-                System.getProperty("user.dir") + "\\drivers\\chromedriver.exe");
+        // Указываем путь к ChromeDriver только для Windows
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("win")) {
+            System.setProperty("webdriver.chrome.driver",
+                    System.getProperty("user.dir") + "\\drivers\\chromedriver.exe");
+        }
+        // На Linux Selenium Manager сам скачает нужный драйвер
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless=new");
@@ -28,7 +33,12 @@ public class DeliveryCardTest {
         options.addArguments("--disable-gpu");
         options.addArguments("--window-size=1920,1080");
         options.addArguments("--remote-allow-origins=*");
-        options.setBinary("C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe");
+
+        // Указываем путь к chrome.exe только для Windows
+        if (os.contains("win")) {
+            options.setBinary("C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe");
+        }
+        // На Linux Chrome установлен в стандартном месте
 
         Configuration.browserCapabilities = options;
         Configuration.browser = "chrome";
@@ -83,10 +93,10 @@ public class DeliveryCardTest {
 
         // Нажатие кнопки "Перепланировать"
         $("[data-test-id='replan-notification'] button").click();
-
         // Ждем пока уведомление перепланирования исчезнет
         $("[data-test-id='replan-notification']")
                 .shouldBe(Condition.hidden, Duration.ofSeconds(10));
+
         // Проверка успешного перепланирования
         $("[data-test-id='success-notification']")
                 .shouldBe(Condition.visible, Duration.ofSeconds(15));
